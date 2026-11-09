@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview | Suricata IDS Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<nav><div class="wrap"><b>Suricata IDS</b>
+<a href="index.html" aria-current="page">Overview</a><a href="implementation.html" >Implementation</a><a href="results.html" >Results</a>
+<a href="https://github.com/kayrie18/Intrusion-Detection-System">GitHub repo</a></div></nav><main class="wrap">
+<h1>Watching network traffic for attacks with Suricata</h1>
+<p>This project installs and configures Suricata, an open-source intrusion detection system (IDS), to inspect traffic on my own network and raise an alert whenever a packet matches a known attack pattern. A real alert from my test run:</p>
+<pre class="alertline">11/09/2026-01:30:34.312702  [**] [1:1000006:1] LOCAL SQL injection attempt (UNION SELECT) [**] [Classification: (null)] [Priority: 3] {TCP} 192.168.214.57:46744 -> 192.168.214.55:8080</pre>
+<h2>What the system does</h2>
+<ul><li>Runs Suricata 8.0.8 on Windows 11 with the Npcap capture driver, listening on the Wi-Fi adapter.</li>
+<li>Uses six custom rules for ping, port scans, SSH brute force, scanner user-agents, directory traversal and SQL injection.</li>
+<li>Writes alerts to <code>fast.log</code> and detailed JSON to <code>eve.json</code>.</li></ul>
+<h2>Lab layout</h2>
+<pre>Phone (hotspot, 192.168.214.57)  --&gt;  Laptop Wi-Fi adapter (192.168.214.55)  --&gt;  Npcap + Suricata  --&gt;  fast.log</pre>
+<p>All testing was done on my own devices, as the project guidelines require. I first tried WSL2, but WSL would not install on my laptop, so I ran Suricata directly on Windows.</p>
+<p><a class="btn" href="https://github.com/kayrie18/Intrusion-Detection-System">View the repository</a></p>
+</main><footer><div class="wrap">Ekari Emmanuel Moyo, 23311351007. CP 81 Comprehension, Project 4. Source code and documentation: <a href="https://github.com/kayrie18/Intrusion-Detection-System">GitHub repository</a>.</div></footer></body></html>

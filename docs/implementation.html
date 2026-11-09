@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implementation | Suricata IDS Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<nav><div class="wrap"><b>Suricata IDS</b>
+<a href="index.html" >Overview</a><a href="implementation.html" aria-current="page">Implementation</a><a href="results.html" >Results</a>
+<a href="https://github.com/kayrie18/Intrusion-Detection-System">GitHub repo</a></div></nav><main class="wrap">
+<h1>How it was built</h1>
+<h2>1. Install</h2>
+<p>Npcap 1.90 (packet capture driver) and then the Suricata 8.0.8 Windows installer. Check with <code>.\suricata.exe --build-info</code>.</p>
+<h2>2. Configure</h2>
+<p>I found my Wi-Fi IP with <code>ipconfig</code>. The default <code>HOME_NET</code> already covers private address ranges. The community rule files were not installed, so I load only my custom rules with <code>-S rules\local.rules</code>.</p>
+<h2>3. Custom rules</h2>
+<div class="table"><table><tr><th>SID</th><th>Detects</th><th>How</th></tr>
+<tr><td>1000001</td><td>Ping</td><td>ICMP echo request</td></tr>
+<tr><td>1000002</td><td>SYN port scan</td><td>20 SYN packets from one source in 10 s</td></tr>
+<tr><td>1000003</td><td>SSH brute force</td><td>5 SYN packets to port 22 in 60 s</td></tr>
+<tr><td>1000004</td><td>Scanner tool</td><td>HTTP user-agent contains sqlmap</td></tr>
+<tr><td>1000005</td><td>Directory traversal</td><td>URI contains ../</td></tr>
+<tr><td>1000006</td><td>SQL injection</td><td>URI contains union then select</td></tr></table></div>
+<h2>4. Run</h2>
+<pre>.\suricata.exe -T -c suricata.yaml -S rules\local.rules -v
+.\suricata.exe -c suricata.yaml -S rules\local.rules -i 192.168.214.55</pre>
+<p>The config test reported 6 rules loaded and 0 failed, and the engine started.</p>
+<h2>Problems and fixes</h2>
+<ul><li><b>WSL would not install</b> (error REGDB_E_CLASSNOTREG, even after repair), so I switched to Suricata on Windows.</li>
+<li><b>Npcap install aborted</b> with access denied (80070005). My antivirus blocked the driver. I paused it, installed, and turned it back on.</li>
+<li><b>Two rules failed to parse.</b> Suricata 8 needs <code>count 20, seconds 10</code> with spaces, not colons.</li></ul>
+<p>The full guide, rules and scripts are in the <a href="https://github.com/kayrie18/Intrusion-Detection-System">GitHub repository</a>.</p>
+</main><footer><div class="wrap">Ekari Emmanuel Moyo, 23311351007. CP 81 Comprehension, Project 4. Source code and documentation: <a href="https://github.com/kayrie18/Intrusion-Detection-System">GitHub repository</a>.</div></footer></body></html>
